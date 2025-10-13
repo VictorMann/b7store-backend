@@ -1,12 +1,12 @@
 import { prisma } from "../libs/prisma"
 
-type Props = {
+type PropsAllProducts = {
   metadata?: { [key: string]: string },
   order?: string;
   limit?: number;
 }
 
-export const getAllProducts = async (filters: Props) => {
+export const getAllProducts = async (filters: PropsAllProducts) => {
   // ORDER
   let orderBy = {};
   switch (filters.order) {
@@ -59,4 +59,36 @@ export const getAllProducts = async (filters: Props) => {
     image: product.images[0] ? `media/products/${product.images[0].url}` : null,
     images: undefined
   }));
+}
+
+export const getProduct = async (id: number) => {
+  const product = await prisma.product.findUnique({
+    where: { id },
+    select: {
+      id: true,
+      label: true,
+      price: true,
+      description: true,
+      categoryId: true,
+      images: true
+    }
+  });
+
+  if (!product) return null
+
+  return {
+    ...product,
+    images: product.images.map(image => 
+      `media/products/${image.url}`
+    )
+  }
+}
+
+export const incrementProductView = async (id: number) => {
+  await prisma.product.update({
+    where: { id },
+    data: {
+      viewsCount: { increment: 1 }
+    }
+  });
 }
