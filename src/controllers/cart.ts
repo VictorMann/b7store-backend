@@ -2,6 +2,8 @@ import { RequestHandler } from "express";
 import { cartMountSchema } from "../schemas/cart-mount-schema";
 import { getProduct } from "../services/product";
 import { getAbsoluteImageUrl } from "../utils/get-absolute-image-url";
+import { cartShippingSchema } from "../schemas/cart-shipping-schema";
+import { getCartShipping } from "../services/cart";
 
 export const cartMount: RequestHandler = async (req, res) => {
   const bodyResult = cartMountSchema.safeParse(req.body);
@@ -29,4 +31,25 @@ export const cartMount: RequestHandler = async (req, res) => {
 
 
   res.json({ error: null, products });
+}
+
+export const cartShipping: RequestHandler = async (req, res) => {
+  const parseResult = cartShippingSchema.safeParse(req.query);
+  if (!parseResult.success) {
+    res.json({ error: 'Parâmetros inválidos' });
+    return;
+  }
+
+  const { zipcode } = parseResult.data;
+  const shipping = await getCartShipping(zipcode);
+  if (!shipping) {
+    res.json({ error: 'Frete não encontrado' });
+    return;
+  }
+
+  
+
+
+
+  res.json({ error: null, ...shipping });
 }

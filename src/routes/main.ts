@@ -15,3 +15,4 @@ routes.get('/product/:id', productController.getOneProduct);
 routes.get('/product/:id/related', productController.getRelatedProducts);
 routes.get('/category/:slug/metadata', categoryController.getCategoyWithMetadata);
 routes.get('/cart/mount', cartController.cartMount);
+routes.get('/cart/shipping', cartController.cartShipping);
