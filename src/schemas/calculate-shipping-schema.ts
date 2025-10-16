@@ -1,5 +1,5 @@
 import z from "zod";
 
-export const cartShippingSchema = z.object({
+export const calculateShippingSchema = z.object({
   zipcode: z.string().regex(/^\d{5}-?\d{3}$/)
 });
