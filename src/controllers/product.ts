@@ -1,9 +1,11 @@
 import { RequestHandler } from "express";
 import { getProductSchema } from "../schemas/get-product-schema";
-import { getAllProducts, getProduct, incrementProductView } from "../services/product";
+import { getAllProducts, getProduct, getProductsFromSameCategory, incrementProductView } from "../services/product";
 import { getAbsoluteImageUrl } from "../utils/get-absolute-image-url";
-import { getOneProductSchema } from "../schemas/get-one-product";
+import { getOneProductSchema } from "../schemas/get-one-product-schema";
 import { getCategory } from "../services/category";
+import { getRelatedProductsSchema } from "../schemas/get-related-products-schema";
+import { getRelatedProductsQuerySchema } from "../schemas/get-related-products-query-schema";
 
 export const getProducts: RequestHandler = async (req, res) => {
   const parseResult = getProductSchema.safeParse(req.query);
@@ -62,4 +64,28 @@ export const getOneProduct: RequestHandler = async (req, res) => {
     product: productWithAbsoluteUrl,
     category
   });
+}
+
+export const getRelatedProducts: RequestHandler = async (req, res) => {
+  const paramsResult = getRelatedProductsSchema.safeParse(req.params);
+  const queryResult = getRelatedProductsQuerySchema.safeParse(req.query);
+  if (!paramsResult.success || !queryResult.success) {
+    res.status(400).json({ error: 'Parâmetros inválidos!' });
+    return;
+  }
+  const { id } = paramsResult.data;
+  const { limit } = queryResult.data;
+
+  const products = await getProductsFromSameCategory(
+    Number(id),
+    limit ? Number(limit) : undefined
+  );
+  
+  const productsWithAbsoluteUrl = products.map(product => ({
+    ...product,
+    image: product.image ? getAbsoluteImageUrl(product.image) : null,
+    liked: false // TODO: Once have like funcionally. fetch this.
+  }));
+
+  res.json({ error: null, products:  productsWithAbsoluteUrl });
 }
