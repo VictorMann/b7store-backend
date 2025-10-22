@@ -1,6 +1,6 @@
 import { RequestHandler } from "express";
 import { registerSchema } from "../schemas/register-schema";
-import { createAddress, createUser, getAddressesByUserId, loginUser } from "../services/user";
+import { createAddress, createUser, getAddressesFromUserId, loginUser } from "../services/user";
 import { loginSchema } from "../schemas/login-schema";
 import { addAddressSchema } from "../schemas/add-address-schema";
 
@@ -67,7 +67,7 @@ export const getAddresses: RequestHandler = async (req, res) => {
     return;
   }
 
-  const addresses = await getAddressesByUserId(userId);
+  const addresses = await getAddressesFromUserId(userId);
 
   res.json({ error: null, addresses });
 }
