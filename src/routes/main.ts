@@ -20,3 +20,4 @@ routes.get('/cart/mount', cartController.cartMount);
 routes.get('/cart/shipping', cartController.calculateShipping);
 routes.post('/user/register', userController.register);
 routes.post('/user/login', userController.login);
+routes.post('/user/addresses', authMiddleware, userController.addAddress);

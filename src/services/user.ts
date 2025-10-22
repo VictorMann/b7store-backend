@@ -1,6 +1,7 @@
 import { compare, hash } from "bcryptjs";
 import { prisma } from "../libs/prisma"
 import { v4 } from "uuid";
+import { Address } from "../types/address";
 
 export const createUser = async (name: string, email: string, password: string) => {
   const existing = await prisma.user.findUnique({ where: { email }});
@@ -43,3 +44,11 @@ export const getUserIdByToken = async (token: string) => {
   return user ? user.id : null;
 }
 
+export const createAddress = async (userId: number, address: Address) => {
+  return await prisma.userAddress.create({
+    data: {
+      userId,
+      ...address
+    }
+  });
+};
