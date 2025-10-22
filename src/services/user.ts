@@ -38,3 +38,8 @@ export const loginUser = async (email: string, password: string) => {
   return token;
 }
 
+export const getUserIdByToken = async (token: string) => {
+  const user = await prisma.user.findFirst({ where: { token } });
+  return user ? user.id : null;
+}
+

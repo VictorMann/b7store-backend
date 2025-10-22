@@ -4,6 +4,7 @@ import * as productController from '../controllers/product';
 import * as categoryController from '../controllers/category';
 import * as cartController from '../controllers/cart';
 import * as userController from '../controllers/user';
+import { authMiddleware } from "../middleware/auth";
 export const routes = Router();
 
 routes.get('/ping', (req, res) => {
