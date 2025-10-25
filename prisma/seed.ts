@@ -47,6 +47,48 @@ async function main() {
   });
 
   console.log("✅ Seed [MetadataValue] executado com sucesso!");
+
+  // Product ------------------------------------------
+  await prisma.product.deleteMany();
+  await prisma.product.createMany({
+    data: [
+      { label: 'Camiseta PHP', price: 29.9, categoryId: 1, viewsCount: 2 },
+      { label: 'Camiseta React', price: 19.9, categoryId: 1 },
+      { label: 'Camiseta Python', price: 63.3, categoryId: 1 },
+      { label: 'Camiseta Node', price: 79.9, categoryId: 1, viewsCount: 3 },
+    ]
+  });
+
+  console.log("✅ Seed [Product] executado com sucesso!");
+
+  // ProductImage ------------------------------------------
+  await prisma.productImage.deleteMany();
+  await prisma.productImage.createMany({
+    data: [
+      { productId: 1, url: 'camisa_php_blue.jpg' },
+      { productId: 1, url: 'camisa_php_red.jpg' },
+      { productId: 1, url: 'camisa_php_black.jpg' },
+      { productId: 3, url: 'camisa_python_white.jpg' },
+      { productId: 2, url: 'camisa_react.jpg' },
+      { productId: 4, url: 'camisa_node.jpg' },
+    ]
+  });
+
+  console.log("✅ Seed [ProductImage] executado com sucesso!");
+  
+  // ProductMetadata ------------------------------------------
+  await prisma.productMetadata.deleteMany();
+  await prisma.productMetadata.createMany({
+    data: [
+      { productId: 1, categoryMetadataId: 'tech', metadataValueId: 'php' },
+      { productId: 2, categoryMetadataId: 'tech', metadataValueId: 'reach' },
+      { productId: 3, categoryMetadataId: 'tech', metadataValueId: 'python' },
+      { productId: 4, categoryMetadataId: 'tech', metadataValueId: 'node' },
+    ]
+  });
+
+  console.log("✅ Seed [ProductMetadata] executado com sucesso!");
+  
 }
 
 main()
