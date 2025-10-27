@@ -52,10 +52,10 @@ async function main() {
   await prisma.product.deleteMany();
   await prisma.product.createMany({
     data: [
-      { label: 'Camiseta PHP', price: 29.9, categoryId: 1, viewsCount: 2 },
-      { label: 'Camiseta React', price: 19.9, categoryId: 1 },
-      { label: 'Camiseta Python', price: 63.3, categoryId: 1 },
-      { label: 'Camiseta Node', price: 79.9, categoryId: 1, viewsCount: 3 },
+      { label: 'Camiseta PHP',    price: 29.9, categoryId: 1, description: 'Alguma aqui', viewsCount: 2, salesCount: 1 },
+      { label: 'Camiseta React',  price: 19.9, categoryId: 1, description: 'Outra desc', salesCount: 2},
+      { label: 'Camiseta Python', price: 63.3, categoryId: 1, description: 'Descrição legal', },
+      { label: 'Camiseta Node',   price: 79.9, categoryId: 1, description: 'Descrição pequena', viewsCount: 3 },
     ]
   });
 
