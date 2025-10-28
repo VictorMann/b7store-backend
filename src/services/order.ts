@@ -56,3 +56,18 @@ export const updateOrderStatus = async (orderId: number, status: 'paid' | 'cance
     data: { status }
   });
 }
+
+export const getOrdersFromUser = async (userId: number) => {
+  return await prisma.order.findMany({
+    where: { userId },
+    select: {
+      id: true,
+      status: true,
+      total: true,
+      createdAt: true
+    },
+    orderBy: {
+      createdAt: 'desc'
+    }
+  });
+}
