@@ -1,4 +1,4 @@
-import { createStripeCheckoutSesseion } from "../libs/stripe";
+import { createStripeCheckoutSesseion, getStripeCheckoutSession } from "../libs/stripe";
 import { CartItem } from "../types/cart-item"
 
 type CreatePaymentLinkParams = {
@@ -13,6 +13,17 @@ export const createPaymentLink = async ({ cart, shippingCost, orderId }: CreateP
     if (!session.url) return null;
     return session.url;
   } catch (err) {
+    return null;
+  }
+}
+
+export const getOrderIdFromSession = async (sessionId: string) => {
+  try {
+    const session = await getStripeCheckoutSession(sessionId);
+    const orderId = session.metadata?.orderId;
+    if (!orderId) return null;
+    return parseInt(orderId);
+  } catch {
     return null;
   }
 }
