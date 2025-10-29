@@ -71,3 +71,55 @@ export const getOrdersFromUser = async (userId: number) => {
     }
   });
 }
+
+export const getOrderFromUserById = async (userId: number, id: number) => {
+  const order = await prisma.order.findUnique({
+    where: { userId, id },
+    select: {
+      id: true,
+      status: true,
+      shippingCost: true,
+      shippingDays: true,
+      shippingZipcode: true,
+      shippingStreet: true,
+      shippingNumber: true,
+      shippingCity: true,
+      shippingState: true,
+      shippingCountry: true,
+      shippingComplement: true,
+      createdAt: true,
+      orderItems: {
+        select: {
+          id: true,
+          quantity: true,
+          price: true,
+          product: {
+            select: {
+              id: true,
+              label: true,
+              price: true,
+              images: {
+                take: 1,
+                orderBy: { id: 'asc' }
+              }
+            }
+          }
+        }
+      }
+    }
+  });
+
+  if (!order) return null;
+
+  return {
+    ...order,
+    orderItems: order.orderItems.map(item => ({
+      ...item,
+      product: {
+        ...item.product,
+        image: item.product.images[0] ? `media/products/${item.product.images[0].url}` : null,
+        images: undefined
+      }
+    }))
+  }
+}
