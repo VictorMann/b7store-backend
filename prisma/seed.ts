@@ -6,10 +6,10 @@ async function main() {
   await prisma.banner.deleteMany();
   await prisma.banner.createMany({
     data: [
-      { img: 'fake_banner.gif', link: 'categoria/banner' },
-      { img: 'fake_banner.gif', link: 'categoria/banner' },
-      { img: 'fake_banner.gif', link: 'categoria/banner' },
-      { img: 'fake_banner.gif', link: 'categoria/banner' },
+      { img: 'banner-1.png', link: 'categoria/banner' },
+      { img: 'banner-2.png', link: 'categoria/banner' },
+      { img: 'banner-3.png', link: 'categoria/banner' },
+      { img: 'banner-4.png', link: 'categoria/banner' },
     ]
   });
 
@@ -65,12 +65,12 @@ async function main() {
   await prisma.productImage.deleteMany();
   await prisma.productImage.createMany({
     data: [
-      { productId: 1, url: 'camisa_php_blue.jpg' },
-      { productId: 1, url: 'camisa_php_red.jpg' },
-      { productId: 1, url: 'camisa_php_black.jpg' },
-      { productId: 3, url: 'camisa_python_white.jpg' },
-      { productId: 2, url: 'camisa_react.jpg' },
-      { productId: 4, url: 'camisa_node.jpg' },
+      { productId: 1, url: 'camiseta-php.png' },
+      { productId: 1, url: 'camiseta-php-grafite.png' },
+      { productId: 1, url: 'camiseta-laravel-azul.png' },
+      { productId: 3, url: 'camiseta-html.png' },
+      { productId: 2, url: 'camiseta-react-azul.png' },
+      { productId: 4, url: 'camiseta-node.png' },
     ]
   });
 
